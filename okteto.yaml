@@ -1,0 +1,16 @@
+build:
+  hola-mundo:
+    context: .
+
+deploy:
+  remote: true
+  commands:
+    - name: deploy chart
+      command: |
+        okteto pipeline deploy --repository https://github.com/okteto-community/hello-world-chart \
+          --branch rb/cross-deploy \
+          --var HOLA_MUNDO_IMAGE_TAG=$OKTETO_BUILD_HOLA_MUNDO_SHA
+dev:
+  hola-mundo:
+    sync:
+      - .:/usr/src/app
