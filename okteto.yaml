@@ -3,16 +3,16 @@ build:
     context: .
 
 deploy:
-  remote: true
-  commands:
-    - name: deploy chart
-      command: |
-        set -ex
-        okteto pipeline deploy --repository https://github.com/okteto-community/hello-world-chart \
-          --branch rb/cross-deploy \
-          --var HOLA_MUNDO_IMAGE_REPOSITORY="${OKTETO_BUILD_HOLA_MUNDO_REGISTRY}/${OKTETO_BUILD_HOLA_MUNDO_REPOSITORY}" \
-          --var HOLA_MUNDO_IMAGE_TAG=$OKTETO_BUILD_HELLO_WORLD_SHA
+  - name: Deploy Chart
+    command: |
+      set -ex
+      if [ "$DEPLOY" != "false" ]; then okteto pipeline deploy --wait=false --repository https://github.com/okteto-community/hello-world-chart \
+        --branch main \
+        --var HOLA_MUNDO_IMAGE_TAG=$OKTETO_BUILD_HOLA_MUNDO_SHA; fi
+
 dev:
   hola-mundo:
     sync:
       - .:/usr/src/app
+    forward:
+      - 9229:9229
