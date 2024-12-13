@@ -3,14 +3,13 @@ build:
     context: .
 
 deploy:
-  remote: true
-  commands:
-    - name: deploy chart
-      command: |
-        set -ex
-        okteto pipeline deploy --wait=false --repository https://github.com/okteto-community/hello-world-chart \
-          --branch rb/cross-deploy \
-          --var HOLA_MUNDO_IMAGE_TAG=$OKTETO_BUILD_HELLO_WORLD_SHA
+  - name: Deploy Chart
+    command: |
+      set -ex
+      okteto pipeline deploy --wait=false --repository https://github.com/okteto-community/hello-world-chart \
+        --branch rb/cross-deploy \
+        --var HOLA_MUNDO_IMAGE_TAG=$OKTETO_BUILD_HELLO_WORLD_SHA
+
 dev:
   hola-mundo:
     sync:
